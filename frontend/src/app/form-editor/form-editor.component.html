@@ -1,0 +1,22 @@
+<form [formGroup]="form">
+    <h2> Formular Online </h2>
+
+    <label for="first-name">Nume: </label>
+    <input id="first-name" type="text" formControlName="firstName"><br>
+
+    <label for="last-name">Prenume: </label>
+    <input id="last-name" type="text" formControlName="lastName"><br>
+
+    <label for="cnp">CNP: </label>
+    <input id="cnp" type="text" formControlName="cnp"><br>
+
+    <label for="email">Email: </label>
+    <input id="email" type="email" formControlName="email"><br>
+
+    <label for="phoneNumber">Telefon: </label>
+    <input id="phoneNumber" type="text" formControlName="phoneNumber"><br>
+
+    <button type="submit" [disabled]="!form.valid">Submit</button>
+
+</form>
+
