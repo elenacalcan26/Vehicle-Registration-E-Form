@@ -1,22 +1,65 @@
-<form [formGroup]="form">
-    <h2> Formular Online </h2>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <h2> Formular Online Pentru Inmatriculari Auto  </h2>
 
-    <label for="first-name">Nume: </label>
-    <input id="first-name" type="text" formControlName="firstName"><br>
+    <div>
+        <label for="first-name">Nume: </label>
+        <input id="first-name" type="text" formControlName="firstName"><br>
+    </div>
 
-    <label for="last-name">Prenume: </label>
-    <input id="last-name" type="text" formControlName="lastName"><br>
+    <div>
+        <label for="last-name">Prenume: </label>
+        <input id="last-name" type="text" formControlName="lastName"><br>
+    </div>
 
-    <label for="cnp">CNP: </label>
-    <input id="cnp" type="text" formControlName="cnp"><br>
+    <div>
+        <label for="cnp">CNP: </label>
+        <input id="cnp" type="text" formControlName="cnp"><br>
+        <div *ngIf="form.get('cnp')?.hasError('invalidCnp') && form.get('cnp')?.touched">
+            CNP invalid
+        </div>
+    </div>
 
     <label for="email">Email: </label>
     <input id="email" type="email" formControlName="email"><br>
 
     <label for="phoneNumber">Telefon: </label>
     <input id="phoneNumber" type="text" formControlName="phoneNumber"><br>
+    <div *ngIf="form.get('phoneNumber')?.hasError('invalidPhoneNumber') && form.get('phoneNumber')?.touched">
+        Telefon invalid
+    </div>
 
-    <button type="submit" [disabled]="!form.valid">Submit</button>
+    <label for="county">Judet: </label>
+    <input id="county" type="text" formControlName="county"><br>
+
+    <h4>Selectati tipul de placute pentru numarul de inmatriculare </h4>
+    <div>
+        <label>
+          <input type="radio" formControlName="licencePlateType" [value]="'typeA'"> Tip A: placute cu dimensiunea 110 x 520mm
+        </label>
+      </div>
+
+      <div>
+        <label>
+          <input type="radio" formControlName="licencePlateType" [value]="'typeB'"> Tip B: placute cu dimensiunea 200x330mm
+        </label>
+      </div>
+
+      <div>
+        <label>
+          <input type="radio" formControlName="licencePlateType" [value]="'typeC'"> Tip C: placute cu dimensiunea 130x240mm
+        </label>
+      </div>
+
+      <div formGroupName="userPreferences">
+        <label>
+            <input type="checkbox" formControlName="preferredNumberCheckbox" (change)="toggleInputField($event)">
+        </label>
+
+        <label for="userPreferredNumber">Câmp de introducere numar prefrential: </label>
+        <input type="text" id="userPreferredNumber" formControlName="userPreferredNumber" [disabled]="!form.get('userPreferences.preferredNumberCheckbox')?.value">
+      </div>
+
+    <button type="submit">Submit</button>
 
 </form>
 
