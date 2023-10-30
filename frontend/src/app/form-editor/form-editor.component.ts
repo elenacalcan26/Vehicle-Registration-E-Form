@@ -21,11 +21,20 @@ export class FormEditorComponent {
     }),
 
   })
+  isFormSubmitted: boolean = false;
+  isPrefferedNumberChecked: boolean = false;
+  readonly REGISTRATION_TAX: number = 45
+  licencePlateTax: number = 0;
+  preferredNumberTax: number = 0;
+  total: number = 0;
+
+
 
   onSubmit() {
     if (this.form.valid && this.checkCnp() && this.checkPhoneNumber()) {
-      console.log('Form Completed');
-      console.log(this.form.value);
+      this.isFormSubmitted = true;
+      this.computeTotal();
+
     } else {
       this.checkCnp
       this.checkPhoneNumber
@@ -35,8 +44,10 @@ export class FormEditorComponent {
   toggleInputField(event: any) {
     if (event.target.checked) {
       this.form.get('userPreferences.userPreferredNumber')?.enable();
+      this.isPrefferedNumberChecked = true;
     } else {
       this.form.get('userPreferences.userPreferredNumber')?.disable();
+      this.isPrefferedNumberChecked = false;
     }
   }
 
@@ -58,16 +69,29 @@ export class FormEditorComponent {
 
     return true;
   }
-}
 
-export function requireOneCheckbox(control: AbstractControl) {
-  const typeA = control.get('typeA')?.value || false;
-  const typeB = control.get('typeB')?.value || false;
-  const typeC = control.get('typeC')?.value || false;
+  // Form Completed. Tipul de placut selectat: typeA
+  computeTotal(): void {
+    this.computeLicensePlateTax();
+    this.computePrefferedNumberTax();
 
-  if (!typeA && !typeB && !typeC) {
-    return { requireOneCheckbox: true };
+    this.total = this.REGISTRATION_TAX + this.licencePlateTax + this.preferredNumberTax;
   }
 
-  return null;
+  computeLicensePlateTax(): void {
+    if (this.form.value.licencePlateType === 'typeA') {
+      this.licencePlateTax = 40;
+    } else if (this.form.value.licencePlateType === 'typeB') {
+      this.licencePlateTax = 46;
+    } else if (this.form.value.licencePlateType === 'typeC') {
+      this.licencePlateTax = 37;
+    }
+  }
+
+  computePrefferedNumberTax(): void {
+    if (this.isPrefferedNumberChecked) {
+      this.preferredNumberTax = 45;
+    }
+  }
+
 }
