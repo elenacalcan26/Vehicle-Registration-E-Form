@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, ValidationErrors, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-form-editor',
@@ -28,18 +31,32 @@ export class FormEditorComponent {
   preferredNumberTax: number = 0;
   total: number = 0;
 
+  readonly URL = 'http://localhost:5000/'
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 
+  constructor(private http: HttpClient) {}
 
   onSubmit() {
     if (this.form.valid && this.checkCnp() && this.checkPhoneNumber()) {
       this.isFormSubmitted = true;
       this.computeTotal();
 
+      console.log(this.createHttpJsonContentType());
+      this.sendDataToServer()
+
     } else {
       this.checkCnp
       this.checkPhoneNumber
     }
   }
+
+  sendDataToServer(): void {
+    this.http.post(this.URL, this.createHttpJsonContentType(), this.httpOptions)
+      .subscribe(data => console.log(data));
+  }
+
 
   toggleInputField(event: any) {
     if (event.target.checked) {
@@ -94,4 +111,15 @@ export class FormEditorComponent {
     }
   }
 
+  private createHttpJsonContentType(): any {
+    return {
+      firstName: this.form.get('firstName')?.value,
+      lastName: this.form.get('lastName')?.value,
+      cnp: this.form.get('cnp')?.value,
+      email: this.form.get('email')?.value,
+      phone: this.form.get('phoneNumber')?.value,
+      userPreferredNumber: this.form.get('userPreferences')?.get('userPreferredNumber')?.value,
+      total: this.total
+    };
+  }
 }
