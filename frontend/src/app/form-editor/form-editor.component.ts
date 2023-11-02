@@ -118,6 +118,7 @@ export class FormEditorComponent {
       cnp: this.form.get('cnp')?.value,
       email: this.form.get('email')?.value,
       phone: this.form.get('phoneNumber')?.value,
+      county: this.form.get('county')?.value,
       userPreferredNumber: this.form.get('userPreferences')?.get('userPreferredNumber')?.value,
       total: this.total
     };
