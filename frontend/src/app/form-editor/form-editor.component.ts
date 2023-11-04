@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-form-editor',
@@ -42,6 +45,8 @@ export class FormEditorComponent {
     if (this.form.valid && this.checkCnp() && this.checkPhoneNumber()) {
       this.isFormSubmitted = true;
       this.computeTotal();
+
+      this.generatePDF()
 
       console.log(this.createHttpJsonContentType());
       this.sendDataToServer()
@@ -122,5 +127,53 @@ export class FormEditorComponent {
       userPreferredNumber: this.form.get('userPreferences')?.get('userPreferredNumber')?.value,
       total: this.total
     };
+  }
+
+  generatePDF(): void {
+    const formContent = [
+      {
+        text: "Ordin de Plata",
+        style: "header",
+      },
+      {
+        text: 'Informații personale:',
+        style: 'subheader',
+      },
+      {
+        columns: [
+          {
+            width: '40%',
+            stack: [
+              'Nume: ' + this.form.value.firstName,
+              'Prenume: ' + this.form.value.lastName,
+              'CNP: ' + this.form.value.cnp,
+              'Telefon: ' + this.form.value.phoneNumber,
+              'Mail: ' + this.form.value.email,
+              'Judet: ' + this.form.value.county,
+            ],
+          },
+        ],
+      },
+      {
+        text: 'Tip placute selectat ' + this.form.value.licencePlateType,
+        style: 'subheader',
+      },
+      {
+        text: 'Numar preferential ' + this.form.get('userPreferences')?.get('userPreferredNumber')?.value,
+        style: 'subheader',
+      },
+      {
+        text: 'Total: ' + this.total,
+        style: 'subheader',
+      },
+    ];
+
+    const docDefinition = {
+      content: formContent,
+    };
+
+    const pdfDoc = pdfMake.createPdf(docDefinition);
+    pdfDoc.open();
+    pdfDoc.download("ordin_plata.pdf");
   }
 }
