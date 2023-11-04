@@ -24,6 +24,7 @@ def submitted_form():
         mail=body["email"],
         phone=body["phone"],
         county=body["county"],
+        license_plate_type=body["licencePlateType"],
         preferred_license_plate=body["userPreferredNumber"],
         total=body["total"]
     )

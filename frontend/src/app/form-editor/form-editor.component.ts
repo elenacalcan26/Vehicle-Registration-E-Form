@@ -87,7 +87,6 @@ export class FormEditorComponent {
     return true;
   }
 
-  // Form Completed. Tipul de placut selectat: typeA
   computeTotal(): void {
     this.computeLicensePlateTax();
     this.computePrefferedNumberTax();
@@ -96,11 +95,11 @@ export class FormEditorComponent {
   }
 
   computeLicensePlateTax(): void {
-    if (this.form.value.licencePlateType === 'typeA') {
+    if (this.form.value.licencePlateType === 'A') {
       this.licencePlateTax = 40;
-    } else if (this.form.value.licencePlateType === 'typeB') {
+    } else if (this.form.value.licencePlateType === 'B') {
       this.licencePlateTax = 46;
-    } else if (this.form.value.licencePlateType === 'typeC') {
+    } else if (this.form.value.licencePlateType === 'C') {
       this.licencePlateTax = 37;
     }
   }
@@ -119,6 +118,7 @@ export class FormEditorComponent {
       email: this.form.get('email')?.value,
       phone: this.form.get('phoneNumber')?.value,
       county: this.form.get('county')?.value,
+      licencePlateType: this.form.value.licencePlateType,
       userPreferredNumber: this.form.get('userPreferences')?.get('userPreferredNumber')?.value,
       total: this.total
     };

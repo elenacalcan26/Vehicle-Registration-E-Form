@@ -34,19 +34,19 @@
     <h4>Selectati tipul de placute pentru numarul de inmatriculare </h4>
     <div>
         <label>
-          <input type="radio" formControlName="licencePlateType" [(ngModel)]="form.value.licencePlateType" id="typeA" [value]="'typeA'"> Tip A: placute cu dimensiunea 110 x 520mm
+          <input type="radio" formControlName="licencePlateType" [(ngModel)]="form.value.licencePlateType" id="typeA" [value]="'A'"> Tip A: placute cu dimensiunea 110 x 520mm
         </label>
       </div>
 
       <div>
         <label>
-          <input type="radio" formControlName="licencePlateType" [(ngModel)]="form.value.licencePlateType" id="typeB" [value]="'typeB'"> Tip B: placute cu dimensiunea 200x330mm
+          <input type="radio" formControlName="licencePlateType" [(ngModel)]="form.value.licencePlateType" id="typeB" [value]="'B'"> Tip B: placute cu dimensiunea 200x330mm
         </label>
       </div>
 
       <div>
         <label>
-          <input type="radio" formControlName="licencePlateType" [(ngModel)]="form.value.licencePlateType" id="typeC" [value]="'typeC'"> Tip C: placute cu dimensiunea 130x240mm
+          <input type="radio" formControlName="licencePlateType" [(ngModel)]="form.value.licencePlateType" id="typeC" [value]="'C'"> Tip C: placute cu dimensiunea 130x240mm
         </label>
       </div>
 
@@ -64,9 +64,9 @@
         Plata inmatriculatre: {{ REGISTRATION_TAX }}
         <br>
 
-        <ng-container *ngIf="form.value.licencePlateType === 'typeA'">Tip A: {{ licencePlateTax }}</ng-container>
-        <ng-container *ngIf="form.value.licencePlateType === 'typeB'">Tip B: {{ licencePlateTax }}</ng-container>
-        <ng-container *ngIf="form.value.licencePlateType === 'typeC'">Tip C: {{ licencePlateTax }}</ng-container>
+        <ng-container *ngIf="form.value.licencePlateType === 'A'">Tip A: {{ licencePlateTax }}</ng-container>
+        <ng-container *ngIf="form.value.licencePlateType === 'B'">Tip B: {{ licencePlateTax }}</ng-container>
+        <ng-container *ngIf="form.value.licencePlateType === 'C'">Tip C: {{ licencePlateTax }}</ng-container>
 
         <br>
 

@@ -13,6 +13,7 @@ class Person(Base):
     mail = Column(String(30), unique=True)
     phone = Column(String(15), unique=True)
     county = Column(String(30))
+    license_plate_type = Column(String(30))
     preferred_license_plate = Column(String(10))
     total = Column(Integer)
 
